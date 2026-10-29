@@ -116,7 +116,7 @@ public class DataDownloadActivity extends Activity {
     private void launchGame() {
         // default server (from the config's servers list); the user can change
         // it in-game. SAMP/settings.ini is what the native engine reads at boot.
-        GameDataManager.writeSettingsIni(this, "Player", "play.uifserver.net", 7776, "0.3.DL-R1");
+        GameDataManager.writeSettingsIni(this, "Player", "43.153.205.238", 7777, "0.3.DL-R1");
         startActivity(new Intent(this, LoadGameActivity.class));
         finish();
     }

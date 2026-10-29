@@ -309,6 +309,29 @@ public final class GameDataManager {
             if (!dir.exists()) dir.mkdirs();
             File ini = new File(dir, "settings.ini");
 
+            // Preserve an existing nickname: the user typed it on the home
+            // screen and saveNickname() already wrote it. Only default when
+            // the file (or the name entry) is not there yet.
+            String existingNick = null;
+            if (ini.exists()) {
+                try (BufferedReader r = new BufferedReader(
+                        new InputStreamReader(new FileInputStream(ini), "UTF-8"))) {
+                    String line;
+                    boolean inClient = false;
+                    while ((line = r.readLine()) != null) {
+                        String t = line.trim();
+                        if (t.startsWith("[") && t.endsWith("]"))
+                            inClient = t.equalsIgnoreCase("[client]");
+                        else if (inClient && t.toLowerCase().startsWith("name="))
+                            existingNick = t.substring(5).trim();
+                    }
+                } catch (Exception ignored) {
+                }
+            }
+            if (existingNick != null && !existingNick.isEmpty()
+                    && !"Nick_Name".equals(existingNick))
+                nick = existingNick;
+
             if (nick == null) nick = "";
             nick = nick.trim();
             if (nick.isEmpty()) nick = "Player";

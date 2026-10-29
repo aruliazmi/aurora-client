@@ -100,9 +100,11 @@ public class HomeActivity extends AppCompatActivity {
 
         String nick = nickname.getText().toString().trim();
 
-        if (!nick.contains("_")) {
+        // UCP system: the username is any non-empty string (no Nama_Belakang
+        // underscore rule). The server enforces its own account rules.
+        if (nick.isEmpty()) {
             Toast.makeText(this,
-                    "Use nome_sobrenome",
+                    "Masukkan username dulu",
                     Toast.LENGTH_SHORT).show();
             return;
         }
@@ -127,8 +129,8 @@ public class HomeActivity extends AppCompatActivity {
             public void run() {
 
                 try {
-                    String ip = "135.148.164.122";
-                    int port = 21450;
+                    String ip = "43.153.205.238";
+                    int port = 7777;
 
                     File file = new File(getExternalFilesDir(null), "SAMP/settings.ini");
                     if (file.exists()) {
@@ -268,8 +270,8 @@ public class HomeActivity extends AppCompatActivity {
                     String host = wini.get("client", "host");
                     String portStr = wini.get("client", "port");
                     if (host == null || host.isEmpty() || portStr == null || portStr.isEmpty()) {
-                        wini.put("client", "host", "135.148.164.122");
-                        wini.put("client", "port", "21450");
+                        wini.put("client", "host", "43.153.205.238");
+                        wini.put("client", "port", "7777");
                     }
                     wini.put("client", "name", nick);
                     wini.store();
